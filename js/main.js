@@ -25,7 +25,7 @@
     };
     var shockImage = "this.jpg";
     var shockAudio = "shock.mp3";
-    var shockDelay = 200; //seconds
+    var shockDelay = 100; //seconds
 
     function initialize() {
         fabric.Object.prototype.selectable = false;
