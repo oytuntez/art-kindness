@@ -25,7 +25,8 @@
     };
     var shockImage = "this.jpg";
     var shockAudio = "shock.mp3";
-    var shockDelay = 100; //seconds
+    var shockDelay = 5; //seconds
+    var subcriptionDelay = 5;
 
     function initialize() {
         fabric.Object.prototype.selectable = false;
@@ -103,6 +104,10 @@
                 var audio = new Audio("/audio/"+shockAudio);
                 audio.loop = true;
                 audio.play();
+              
+                setTimeout(function() {
+                  Subscription.open();
+                }, (subcriptionDelay*1000));
             }, {
                 selectable: false,
                 hoverCursor: 'default',
