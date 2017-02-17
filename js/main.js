@@ -1,15 +1,17 @@
 (function() {
     var canvas;
-    var text = "I have been exploring the nature of kindness for a while now, mostly to justify that we be kind to beings (including statics, which are presumably non-alive beings) around us. I set off with this because I liked how good the act of kindness makes me feel and I wanted to come up with a foundation for what I feel. I always do this: what is the point of a concept, of a state or an act without its deliberate or unconscious meaning behind itself? One may argue mingling with the reasons of acts and states changes the very self of these acts and states, but well, who cares. This is a statement of why you should be kind to beings."+
-        "\n\n"+
-        "First of all, you have to understand the evolutionary, thus historical, accumulation of everything around us. Humans, animals, plants, bacteria and any other organism and non-alive beings such as earth, ocean, air and fire have an unbelievable scientific history. They also happen to have gathered up a romantic history once the humans began having subjective thoughts about them, but let’s ignore it for now. During this ongoing journey of change (evolution), we cannot put one being on a higher worth than another being, because nature does not have a distinction between the values of these beings and the value of change factors. So humans having evolved mentally “more” than other animals doesn’t mean anything to the nature. Nature is a stateful, but significance-less mechanism. This is why you must be kind towards every being in the existence, because they acquired properties and became themselves just like you did on the same evolutionary journey. "+
-        "\n\n"+
-        "You are no different than other beings in the sense of cruising from one state to another. That you have reached to a mental level does not mean you are worth more than other beings. Nature does not have a purpose at the end of its existence, so it cannot have values and it cannot assign values to its elements (such as humans versus animals). To cover some of the rejections: No, surviving is not a value or a rateable attribute, as it is the condition of staying within existence and nature. Apart from that, nature does not have any values against any of its elements. It is solely a state in which everything floats without any (moral) values. No values mean you cannot be better than others, objectively. Simply written, you are not the boss of existence. So be kind to others."+
-        "\n\n"+
-        "But let’s go on to another attribute of nature, that it is objective. Existence (interchangeable with nature in this context) behaves the same to every being. If sea waves impact the coast, they impact everything on the coast at the same strength. Sand may be affected more than trees, but it doesn’t mean the wave was being unfair to sand and hit trees softer. Looking from this perspective, nature is always objective: it does not have purposeful acts, so it cannot be kind or malicious. While nature won’t be kind (or malevolent) to anything, why would you? You wouldn’t. But if you are being sincere, you would also not be malevolent to anything. "+
-        "\n\n"+
+    var text = "I have been exploring the nature of kindness for a while now, mostly to justify that we be kind to beings (including statics, which are presumably non-alive beings) around us. I set off with this because I liked how good the act of kindness makes me feel and I wanted to come up with a foundation for what I feel. I always do this: what is the point of a concept, of a state or an act without its deliberate or unconscious meaning behind itself? One may argue mingling with the reasons of acts and states changes the very self of these acts and states, but well, who cares. This is a statement of why you should be kind to beings." +
+        "\n\n" +
+        "First of all, you have to understand the evolutionary, thus historical, accumulation of everything around us. Humans, animals, plants, bacteria and any other organism and non-alive beings such as earth, ocean, air and fire have an unbelievable scientific history. They also happen to have gathered up a romantic history once the humans began having subjective thoughts about them, but let’s ignore it for now. During this ongoing journey of change (evolution), we cannot put one being on a higher worth than another being, because nature does not have a distinction between the values of these beings and the value of change factors. So humans having evolved mentally “more” than other animals doesn’t mean anything to the nature. Nature is a stateful, but significance-less mechanism. This is why you must be kind towards every being in the existence, because they acquired properties and became themselves just like you did on the same evolutionary journey. " +
+        "\n\n" +
+        "You are no different than other beings in the sense of cruising from one state to another. That you have reached to a mental level does not mean you are worth more than other beings. Nature does not have a purpose at the end of its existence, so it cannot have values and it cannot assign values to its elements (such as humans versus animals). To cover some of the rejections: No, surviving is not a value or a rateable attribute, as it is the condition of staying within existence and nature. Apart from that, nature does not have any values against any of its elements. It is solely a state in which everything floats without any (moral) values. No values mean you cannot be better than others, objectively. Simply written, you are not the boss of existence. So be kind to others." +
+        "\n\n" +
+        "But let’s go on to another attribute of nature, that it is objective. Existence (interchangeable with nature in this context) behaves the same to every being. If sea waves impact the coast, they impact everything on the coast at the same strength. Sand may be affected more than trees, but it doesn’t mean the wave was being unfair to sand and hit trees softer. Looking from this perspective, nature is always objective: it does not have purposeful acts, so it cannot be kind or malicious. While nature won’t be kind (or malevolent) to anything, why would you? You wouldn’t. But if you are being sincere, you would also not be malevolent to anything. " +
+        "\n\n" +
         "Of course you are not going to be satisfied with just being non-malicious to beings, you will want to be kind. Let’s get this on a more social level, “up” to human societies. You want to be kind to your surroundings, because you wouldn’t want to be the subject of “trouble”. Being kind prevents this. ";
 
+    var introText = "This work makes use of audio. Please turn your volume up.";
+    var introButtonText = "Click anywhere when you are set";
     var signature = "Oytun Tez © 2017, Manhattan";
     var fontFamily = '"Times New Roman", serif, system';
     var textOptions = {
@@ -25,16 +27,20 @@
     };
     var shockImage = "this.jpg";
     var shockAudio = "shock.mp3";
-    var shockDelay = 5; //seconds
-    var subcriptionDelay = 5;
+    var shockDelay = 60; //seconds
+    var subscriptionDelay = 5;
+    var shockStopDelay = 3.2;
+    var subscriptionSubText = '(and go back to reading)';
+    var googleDocLink = 'https://docs.google.com/document/d/1VZ0_XNB4wY7_8kXbhmO4E2FM4U-gF992no3jfZ2TsW0/pub';
 
     function initialize() {
         fabric.Object.prototype.selectable = false;
+        fabric.Object.prototype.hoverCursor = 'default';
         canvas = new fabric.Canvas('c', {
             selection: false
         });
 
-        (function(){
+        (function() {
             window.addEventListener('resize', resizeCanvas, false);
 
             function resizeCanvas() {
@@ -49,13 +55,66 @@
 
         placeSignature();
         placeText();
-        startShock();
+        placeIntro();
+    }
+
+    function placeIntro() {
+        var container = new fabric.Rect({
+            fill: 'white',
+            width: canvas.width,
+            height: canvas.height,
+            left: 0,
+            top: 0
+        });
+        var textObject = new fabric.Textbox(introText, {
+            textAlign: 'center',
+            width: canvas.width,
+            height: canvas.height,
+            top: 100,
+            fontSize: 20
+        });
+        var button = new fabric.Rect({
+            fill: 'black',
+            width: 500,
+            height: 60,
+            originX: 'center',
+            originY: 'center'
+        });
+        var buttonText = new fabric.Text(introButtonText, {
+            fill: 'white',
+            fontSize: 30,
+            originX: 'center',
+            originY: 'center'
+        });
+        var buttonGroup = new fabric.Group([button, buttonText], {
+            originX: 'center',
+            originY: 'center'
+        });
+        var group = new fabric.Group([container, textObject], {
+            hoverCursor: 'pointer'
+        });
+
+        group.add(buttonGroup);
+
+        var stopIntroFn = stopIntro(group);
+        group.on({
+            'mousedown': stopIntroFn,
+            // touch events are not implemented yet
+            'touchmove': stopIntroFn
+        });
+        canvas.add(group);
+    }
+
+    function stopIntro(group) {
+        return function() {
+            canvas.remove(group);
+
+            startShock();
+        };
     }
 
     function placeText() {
         var textObject = new fabric.Textbox(text, textOptions);
-        //textObject.scaleToHeight(canvas.height);
-        //textObject.scaleToWidth(canvas.width);
         textObject.set({
             width: canvas.width,
             height: canvas.height
@@ -95,19 +154,31 @@
 
     function startShock() {
         setTimeout(function() {
-            fabric.Image.fromURL("/img/"+shockImage, function(image) {
+            fabric.Image.fromURL("/img/" + shockImage, function(image) {
                 image.setWidth(canvas.width);
                 image.setHeight(canvas.height);
 
                 canvas.add(image);
 
-                var audio = new Audio("/audio/"+shockAudio);
+                var audio = new Audio("/audio/" + shockAudio);
                 audio.loop = true;
                 audio.play();
-              
+
                 setTimeout(function() {
-                  Subscription.open();
-                }, (subcriptionDelay*1000));
+                    setTimeout(function() {
+                        audio.pause();
+                    }, (shockStopDelay * 1000));
+
+                    Subscription.setSubText(subscriptionSubText);
+                    Subscription.setOnClose(function() {
+                        image.remove();
+                        audio.pause();
+
+                        location.href = googleDocLink;
+                    });
+
+                    Subscription.open();
+                }, (subscriptionDelay * 1000));
             }, {
                 selectable: false,
                 hoverCursor: 'default',
@@ -115,7 +186,7 @@
                 hasControls: false,
                 hasBorders: false
             });
-        }, (shockDelay*1000));
+        }, (shockDelay * 1000));
     }
 
     initialize();
